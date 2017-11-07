@@ -22,7 +22,7 @@
             interval_ms: 15000,
             initial_ether: 15000000000000000000,
             mine_pending_txns: true,
-            mine_periodically: false,
+            mine_periodically: true,
             mine_normally: false,
             threads: 1
         };
@@ -91,8 +91,8 @@
         var last_mined_ms = Date.now();
         var timeout_set = false;
 
-        //miner_obj.start(config.threads);
-        miner_obj.start();
+        miner_obj.start(config.threads);
+        // miner_obj.start();
         web3.eth.filter("latest").watch(function () {
             if ((config.mine_pending_txns && pendingTransactions()) || timeout_set) {
                 return;
@@ -119,8 +119,8 @@
             setTimeout(function () {
                 console.log("== Looking for next block");
                 timeout_set = false;
-                //miner_obj.start(config.threads);
-                miner_obj.start(1);
+                miner_obj.start(config.threads);
+                // miner_obj.start();
             }, next_block_in_ms);
         });
     };
@@ -130,8 +130,8 @@
             if (miner_obj.hashrate > 0) return;
 
             console.log("== Pending transactions! Looking for next block...");
-            //miner_obj.start(config.threads);
-            miner_obj.start();
+            miner_obj.start(config.threads);
+            // miner_obj.start();
         });
 
         if (config.mine_periodically) return;

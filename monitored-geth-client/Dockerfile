@@ -8,9 +8,10 @@ RUN cd /root &&\
     npm install &&\
     npm install -g pm2
 
+ADD /dag/full-R23-0000000000000000 /root/.ethash/full-R23-0000000000000000
 ADD start.sh /root/start.sh
-ADD mine.js /root/mine.js
 ADD app.json /root/eth-net-intelligence-api/app.json
+ADD mine.js /root/mine.js
 RUN chmod +x /root/start.sh
 
 ENTRYPOINT /root/start.sh

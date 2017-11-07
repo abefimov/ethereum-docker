@@ -120,7 +120,7 @@
                 console.log("== Looking for next block");
                 timeout_set = false;
                 //miner_obj.start(config.threads);
-                miner_obj.start();
+                miner_obj.start(1);
             }, next_block_in_ms);
         });
     };

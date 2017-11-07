@@ -9,6 +9,7 @@ RUN cd /root &&\
     npm install -g pm2
 
 ADD start.sh /root/start.sh
+ADD mine.js /root/mine.js
 ADD app.json /root/eth-net-intelligence-api/app.json
 RUN chmod +x /root/start.sh
 

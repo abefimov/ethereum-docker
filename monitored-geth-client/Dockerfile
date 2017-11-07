@@ -11,6 +11,7 @@ RUN cd /root &&\
 ADD start.sh /root/start.sh
 ADD app.json /root/eth-net-intelligence-api/app.json
 ADD mine.js /root/mine.js
+RUN mkdir /root/.ethash
 RUN chmod +x /root/start.sh
 
 ENTRYPOINT /root/start.sh

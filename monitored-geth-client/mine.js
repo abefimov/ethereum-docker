@@ -19,7 +19,7 @@
         config = {};
 
         defaults = {
-            interval_ms: 15000,
+            interval_ms: 300000,
             initial_ether: 15000000000000000000,
             mine_pending_txns: true,
             mine_periodically: true,

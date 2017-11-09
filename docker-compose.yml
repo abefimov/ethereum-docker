@@ -12,26 +12,168 @@ services:
     volumes:
       - ./files/password:/root/files/password:ro
       - ./files/genesis.json:/root/files/genesis.json:ro
-      - ./files/keystore:/root/.ethereum/devchain/keystore:rw
+      - ./files/ks1:/root/.ethereum/devchain/keystore:rw
       - /etc/localtime:/etc/localtime:ro
-      - /dag/:/root/.ethash/:rw
+      - ./dag/:/root/.ethash/:rw
     ports:
       - "30303:30303"
       - "30303:30303/udp"
       - "8545:8545"
-  eth:
+  bootstrap2:
     build: monitored-geth-client
     restart: on-failure
+    container_name: bootstrap2
+    hostname: bootstrap2
+    links:
+      - netstats
+      - bootstrap
+    entrypoint: /root/start.sh
+    command: '--datadir=~/.ethereum/devchain --bootnodes="enode://288b97262895b1c7ec61cf314c2e2004407d0a5dc77566877aad1f2a36659c8b698f4b56fd06c4a0c0bf007b4cfb3e7122d907da3b005fa90e724441902eb19e@XXX:30303" --rpcapi "db,personal,eth,net,web3" --rpccorsdomain="*" --networkid=456719 --rpc --rpcaddr="0.0.0.0" js /root/mine.js'
+    volumes:
+      - ./files/password:/root/files/password:ro
+      - ./files/genesis.json:/root/files/genesis.json:ro
+      - ./files/ks2:/root/.ethereum/devchain/keystore:rw
+      - /etc/localtime:/etc/localtime:ro
+      - ./dag/:/root/.ethash/:rw
+    ports:
+      - "30304:30303"
+      - "30304:30303/udp"
+      - "8546:8545"
+  eth3:
+    build: monitored-geth-client
+    restart: on-failure
+    hostname: eth3
+    container_name: eth3
     links:
       - bootstrap
+      - bootstrap2
       - netstats
     entrypoint: /root/start.sh
     volumes:
       - ./files/password:/root/files/password:ro
       - ./files/genesis.json:/root/files/genesis.json:ro
-      - ./files/keystore:/root/.ethereum/devchain/keystore:rw
+      - ./files/ks3:/root/.ethereum/devchain/keystore:rw
       - /etc/localtime:/etc/localtime:ro
-      - /dag/:/root/.ethash/:rw
+      - ./dag/:/root/.ethash/:rw
+    command: '--datadir=~/.ethereum/devchain --rpccorsdomain="*" --networkid=456719 --rpc --bootnodes="enode://288b97262895b1c7ec61cf314c2e2004407d0a5dc77566877aad1f2a36659c8b698f4b56fd06c4a0c0bf007b4cfb3e7122d907da3b005fa90e724441902eb19e@XXX:30303" js /root/mine.js'
+  eth4:
+    build: monitored-geth-client
+    restart: on-failure
+    hostname: eth4
+    container_name: eth4
+    links:
+      - bootstrap
+      - bootstrap2
+      - netstats
+    entrypoint: /root/start.sh
+    volumes:
+      - ./files/password:/root/files/password:ro
+      - ./files/genesis.json:/root/files/genesis.json:ro
+      - ./files/ks4:/root/.ethereum/devchain/keystore:rw
+      - /etc/localtime:/etc/localtime:ro
+      - ./dag/:/root/.ethash/:rw
+    command: '--datadir=~/.ethereum/devchain --rpccorsdomain="*" --networkid=456719 --rpc --bootnodes="enode://288b97262895b1c7ec61cf314c2e2004407d0a5dc77566877aad1f2a36659c8b698f4b56fd06c4a0c0bf007b4cfb3e7122d907da3b005fa90e724441902eb19e@XXX:30303" js /root/mine.js'
+  eth5:
+    build: monitored-geth-client
+    restart: on-failure
+    hostname: eth5
+    container_name: eth5
+    links:
+      - bootstrap
+      - bootstrap2
+      - netstats
+    entrypoint: /root/start.sh
+    volumes:
+      - ./files/password:/root/files/password:ro
+      - ./files/genesis.json:/root/files/genesis.json:ro
+      - ./files/ks5:/root/.ethereum/devchain/keystore:rw
+      - /etc/localtime:/etc/localtime:ro
+      - ./dag/:/root/.ethash/:rw
+    command: '--datadir=~/.ethereum/devchain --rpccorsdomain="*" --networkid=456719 --rpc --bootnodes="enode://288b97262895b1c7ec61cf314c2e2004407d0a5dc77566877aad1f2a36659c8b698f4b56fd06c4a0c0bf007b4cfb3e7122d907da3b005fa90e724441902eb19e@XXX:30303" js /root/mine.js'
+  eth6:
+    build: monitored-geth-client
+    restart: on-failure
+    hostname: eth6
+    container_name: eth6
+    links:
+      - bootstrap
+      - bootstrap2
+      - netstats
+    entrypoint: /root/start.sh
+    volumes:
+      - ./files/password:/root/files/password:ro
+      - ./files/genesis.json:/root/files/genesis.json:ro
+      - ./files/ks6:/root/.ethereum/devchain/keystore:rw
+      - /etc/localtime:/etc/localtime:ro
+      - ./dag/:/root/.ethash/:rw
+    command: '--datadir=~/.ethereum/devchain --rpccorsdomain="*" --networkid=456719 --rpc --bootnodes="enode://288b97262895b1c7ec61cf314c2e2004407d0a5dc77566877aad1f2a36659c8b698f4b56fd06c4a0c0bf007b4cfb3e7122d907da3b005fa90e724441902eb19e@XXX:30303" js /root/mine.js'
+  eth7:
+    build: monitored-geth-client
+    restart: on-failure
+    hostname: eth7
+    container_name: eth7
+    links:
+      - bootstrap
+      - bootstrap2
+      - netstats
+    entrypoint: /root/start.sh
+    volumes:
+      - ./files/password:/root/files/password:ro
+      - ./files/genesis.json:/root/files/genesis.json:ro
+      - ./files/ks7:/root/.ethereum/devchain/keystore:rw
+      - /etc/localtime:/etc/localtime:ro
+      - ./dag/:/root/.ethash/:rw
+    command: '--datadir=~/.ethereum/devchain --rpccorsdomain="*" --networkid=456719 --rpc --bootnodes="enode://288b97262895b1c7ec61cf314c2e2004407d0a5dc77566877aad1f2a36659c8b698f4b56fd06c4a0c0bf007b4cfb3e7122d907da3b005fa90e724441902eb19e@XXX:30303" js /root/mine.js'
+  eth8:
+    build: monitored-geth-client
+    restart: on-failure
+    hostname: eth8
+    container_name: eth8
+    links:
+      - bootstrap
+      - bootstrap2
+      - netstats
+    entrypoint: /root/start.sh
+    volumes:
+      - ./files/password:/root/files/password:ro
+      - ./files/genesis.json:/root/files/genesis.json:ro
+      - ./files/ks8:/root/.ethereum/devchain/keystore:rw
+      - /etc/localtime:/etc/localtime:ro
+      - ./dag/:/root/.ethash/:rw
+    command: '--datadir=~/.ethereum/devchain --rpccorsdomain="*" --networkid=456719 --rpc --bootnodes="enode://288b97262895b1c7ec61cf314c2e2004407d0a5dc77566877aad1f2a36659c8b698f4b56fd06c4a0c0bf007b4cfb3e7122d907da3b005fa90e724441902eb19e@XXX:30303" js /root/mine.js'
+  eth9:
+    build: monitored-geth-client
+    restart: on-failure
+    hostname: eth9
+    container_name: eth9
+    links:
+      - bootstrap
+      - bootstrap2
+      - netstats
+    entrypoint: /root/start.sh
+    volumes:
+      - ./files/password:/root/files/password:ro
+      - ./files/genesis.json:/root/files/genesis.json:ro
+      - ./files/ks9:/root/.ethereum/devchain/keystore:rw
+      - /etc/localtime:/etc/localtime:ro
+      - ./dag/:/root/.ethash/:rw
+    command: '--datadir=~/.ethereum/devchain --rpccorsdomain="*" --networkid=456719 --rpc --bootnodes="enode://288b97262895b1c7ec61cf314c2e2004407d0a5dc77566877aad1f2a36659c8b698f4b56fd06c4a0c0bf007b4cfb3e7122d907da3b005fa90e724441902eb19e@XXX:30303" js /root/mine.js'
+  eth10:
+    build: monitored-geth-client
+    restart: on-failure
+    hostname: eth10
+    container_name: eth10
+    links:
+      - bootstrap
+      - bootstrap2
+      - netstats
+    entrypoint: /root/start.sh
+    volumes:
+      - ./files/password:/root/files/password:ro
+      - ./files/genesis.json:/root/files/genesis.json:ro
+      - ./files/ks10:/root/.ethereum/devchain/keystore:rw
+      - /etc/localtime:/etc/localtime:ro
+      - ./dag/:/root/.ethash/:rw
     command: '--datadir=~/.ethereum/devchain --rpccorsdomain="*" --networkid=456719 --rpc --bootnodes="enode://288b97262895b1c7ec61cf314c2e2004407d0a5dc77566877aad1f2a36659c8b698f4b56fd06c4a0c0bf007b4cfb3e7122d907da3b005fa90e724441902eb19e@XXX:30303" js /root/mine.js'
   netstats:
     build: eth-netstats

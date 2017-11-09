@@ -17,12 +17,13 @@
         In the meantime, just set an empty config object.
         */
         config = {};
+        transactions = {};
 
         defaults = {
             interval_ms: 300000,
             initial_ether: 15000000000000000000,
             mine_pending_txns: true,
-            mine_periodically: true,
+            mine_periodically: false,
             mine_normally: false,
             threads: 1
         };
@@ -36,8 +37,8 @@
         var miner_obj = (admin.miner === undefined) ? miner : admin.miner;
 
         if (config.mine_normally) {
-            //miner_obj.start(config.threads);
-            miner_obj.start();
+            miner_obj.start(config.threads);
+            // miner_obj.start();
             return;
         }
 
@@ -76,11 +77,23 @@
     };
 
     var pendingTransactions = function () {
+        console.log("== Not confirmed transactions = " + Object.keys(transactions).length);
         if (web3.eth.pendingTransactions === undefined || web3.eth.pendingTransactions === null) {
             return txpool.status.pending || txpool.status.queued;
         }
         else if (typeof web3.eth.pendingTransactions === "function") {
             return web3.eth.pendingTransactions().length > 0;
+        }
+        else if (Object.keys(transactions).length > 0) {
+            Object.keys(transactions).forEach(function (t) {
+                var confirmations = web3.eth.blockNumber - web3.eth.getTransaction(t).blockNumber;
+                console.log("== Confirmations for transaction [" + t + "] = " + confirmations);
+                if (confirmations > 11) {
+                    delete transactions[t];
+                    console.log("== Remove transaction [" + t + "] from list");
+                }
+            });
+            return true;
         }
         else {
             return web3.eth.pendingTransactions.length > 0 || web3.eth.getBlock('pending').transactions.length > 0;
@@ -127,6 +140,14 @@
 
     var start_transaction_mining = function (config, miner_obj) {
         web3.eth.filter("pending").watch(function () {
+
+            var ptransactions = web3.eth.getBlock('pending').transactions;
+            ptransactions.forEach(function (pt) {
+                transactions[pt] = pt;
+                console.log("== Added transaction " + pt);
+                console.log("== Transactions size =" + Object.keys(transactions).length);
+            });
+
             if (miner_obj.hashrate > 0) return;
 
             console.log("== Pending transactions! Looking for next block...");

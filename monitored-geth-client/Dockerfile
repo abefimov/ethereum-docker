@@ -1,4 +1,4 @@
-FROM ethereum/client-go
+FROM geth-sonm-test
 
 RUN apk add --update git bash nodejs nodejs-npm perl
 
